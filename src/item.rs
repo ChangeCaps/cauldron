@@ -20,7 +20,7 @@ pub fn ItemView(props: &ItemViewProps) -> Html {
     let mut style = Style::new();
 
     if props.item.pixelated {
-        style.set("filter", "grayscale(100%)");
+        style.set("image-rendering", "pixelated");
     }
 
     html! {
