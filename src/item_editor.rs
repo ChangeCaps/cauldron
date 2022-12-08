@@ -138,7 +138,7 @@ pub fn ItemEditor(props: &ItemEditorProps) -> Html {
         },
         (data.clone(), panels.clone(), props.index),
     );
-    categories.push(self::new_category(new_category, ""));
+    let new_category = self::new_category(new_category, "");
 
     let input_description = use_callback(
         move |value: InputEvent, (data, panels, index)| {
@@ -197,6 +197,7 @@ pub fn ItemEditor(props: &ItemEditorProps) -> Html {
 
             { "Categories" }
             { for categories }
+            { new_category }
 
             <Spacer size=20.0 />
 
