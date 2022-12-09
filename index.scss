@@ -5,9 +5,19 @@
 	--background-color-light: #363636;
 
 	// dark theme text color
-	--text-color: #9e9e9e;
-	--text-color-dark: #757575;
+	--text-color: #d8d8d8;
+	--text-color-dark: #808080;
 	--text-color-light: #ffffff;
+
+	// dark theme primary color
+	--primary-color: #3cabc4;
+	--primary-color-dark: #2c8aa0;
+	--primary-color-light: #4fc3e0;
+
+	// dark theme secondary color
+	--secondary-color: #f5f5f5;
+	--secondary-color-dark: #c2c2c2;
+	--secondary-color-light: #ffffff;
 }
 
 * {
@@ -46,6 +56,16 @@ button {
 
 	border: none;
 	border-radius: 4px;
+
+	&:hover {
+		background: var(--background-color-dark);
+
+		transition: background 0.1s ease-in-out;
+	}
+
+	&:focus {
+		background: var(--primary-color-dark);
+	}
 }
 
 input[type="text"] {
@@ -87,6 +107,12 @@ textarea {
 	:focus {
 		outline: none;
 	}
+}
+
+h2 {
+	color: var(--text-color);
+
+	margin: 0;
 }
 
 ::placeholder {

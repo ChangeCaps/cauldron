@@ -1,6 +1,6 @@
 use yew::prelude::*;
 
-use crate::{item::ItemsPanel, panels::PanelContext};
+use crate::{inventory::InventoryPanel, item::ItemsPanel, panels::PanelContext};
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum MainPanel {
@@ -11,7 +11,9 @@ pub enum MainPanel {
 impl MainPanel {
     pub fn html(&self) -> Html {
         match self {
-            MainPanel::Inventory => html! {},
+            MainPanel::Inventory => html! {
+                <InventoryPanel />
+            },
             MainPanel::Items => html! {
                 <ItemsPanel />
             },

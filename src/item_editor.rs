@@ -158,7 +158,8 @@ pub fn ItemEditor(props: &ItemEditorProps) -> Html {
 
     let remove_item = use_callback(
         move |_, (data, panels, index)| {
-            data.borrow_mut().items.remove(*index);
+            let item = data.borrow_mut().items.remove(*index);
+            data.borrow_mut().removed_items.push(item);
             data.store();
 
             panels.right.set(RightPanel::Empty);
@@ -168,9 +169,13 @@ pub fn ItemEditor(props: &ItemEditorProps) -> Html {
 
     html! {
         <div class="panel-content">
+            <h2>{ "Edit Item" }</h2>
+
+            <Spacer size=32.0/>
+
             <ItemView item={ item.clone() } />
 
-            <Spacer size=20.0 />
+            <Spacer size=32.0 />
 
             { text_input(input_name, "Name", &item.name) }
             { text_input(input_id, "Id", item.id.as_deref().unwrap_or("")) }
@@ -199,7 +204,7 @@ pub fn ItemEditor(props: &ItemEditorProps) -> Html {
             { for categories }
             { new_category }
 
-            <Spacer size=20.0 />
+            <Spacer size=32.0 />
 
             <textarea
                 style="width: 100%; height: 100%;"
@@ -209,7 +214,7 @@ pub fn ItemEditor(props: &ItemEditorProps) -> Html {
                 value={ item.description }
             />
 
-            <Spacer size=20.0 />
+            <Spacer size=32.0 />
 
             <button onclick={ remove_item }>{ "Remove" }</button>
         </div>

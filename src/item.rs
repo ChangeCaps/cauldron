@@ -1,11 +1,10 @@
-use std::iter;
-
 use cauldron_data::item::ItemDescriptor;
 use garlic::{SearchQuery, Style};
 use yew::prelude::*;
 
 use crate::{
-    data::DataContext, panels::PanelContext, right_panel::RightPanel, search::search_enumerate,
+    data::DataContext, panels::PanelContext, right_panel::RightPanel,
+    search::search_item_descriptors,
 };
 
 #[derive(Properties, PartialEq)]
@@ -44,13 +43,7 @@ pub fn ItemsPanel() -> Html {
 
     let ref_data = data.borrow();
     let sorted: Vec<_> = if !search_query.is_empty() {
-        search_enumerate(&search_query, &ref_data.items, |item| {
-            iter::once((0, item.name.as_str()))
-                .chain(item.id.iter().map(|id| (-1000, id.as_str())))
-                .chain(item.categories.iter().map(|s| (-10000, s.as_str())))
-                .chain(iter::once((-100000, item.description.as_str())))
-        })
-        .collect()
+        search_item_descriptors(&search_query, &ref_data).collect()
     } else {
         ref_data.items.iter().enumerate().collect()
     };

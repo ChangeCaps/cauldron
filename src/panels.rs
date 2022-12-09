@@ -1,4 +1,4 @@
-use garlic::AnimationFrame;
+use garlic::{AnimationFrame, Style};
 use yew::prelude::*;
 
 use crate::{
@@ -58,10 +58,18 @@ fn panel_button(panel: MainPanel, handle: &UseStateHandle<MainPanel>) -> Html {
         MainPanel::Items => "Items",
     };
 
+    let mut style = Style::default();
+
+    if **handle == panel {
+        style.set("color", "var(--text-color-light)");
+        style.set("background-color", "var(--primary-color-dark)");
+    }
+
     let handle = handle.clone();
     html! {
         <button
             class="panel-button"
+            style={ style }
             onclick={ Callback::from(move |_| handle.set(panel)) }
         >
             { panel_name }

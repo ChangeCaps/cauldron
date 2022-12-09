@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 mod data;
+mod inventory;
 mod item;
 mod item_editor;
 mod main_panel;
