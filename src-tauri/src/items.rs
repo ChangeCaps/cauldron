@@ -1,4 +1,8 @@
-use std::{collections::HashMap, fs, path::Path};
+use std::{
+    collections::HashMap,
+    env, fs,
+    path::{Path, PathBuf},
+};
 
 use dashmap::DashMap;
 use serde::{Deserialize, Serialize};
@@ -60,12 +64,21 @@ pub fn set_item(app: tauri::AppHandle, items: tauri::State<Items>, item: Uuid, v
     app.emit_all("item-changed", item).unwrap();
 }
 
+fn data_path(app: &tauri::AppHandle) -> PathBuf {
+    if let Some(path) = app.path_resolver().app_data_dir() {
+        return path;
+    }
+
+    #[cfg(not(mobile))]
+    panic!("Unable to resolve data path");
+}
+
 #[tauri::command]
 pub fn store_items(app: tauri::AppHandle, items: tauri::State<Items>, file: Option<String>) {
     let file_name = file.unwrap_or(String::from("items"));
     let file_path = Path::new(&file_name).with_extension("json");
 
-    let path = app.path_resolver().app_data_dir().unwrap().join(file_path);
+    let path = data_path(&app).join(file_path);
     let json = serde_json::to_string(&items.items).unwrap();
     fs::write(path, json).unwrap();
 }
@@ -75,7 +88,7 @@ pub fn load_items(app: tauri::AppHandle, items: tauri::State<Items>, file: Optio
     let file_name = file.unwrap_or(String::from("items"));
     let file_path = Path::new(&file_name).with_extension("json");
 
-    let path = app.path_resolver().app_data_dir().unwrap().join(file_path);
+    let path = data_path(&app).join(file_path);
     let Ok(json) = fs::read_to_string(path) else { return };
     let loaded: HashMap<Uuid, Item> = serde_json::from_str(&json).unwrap();
 
